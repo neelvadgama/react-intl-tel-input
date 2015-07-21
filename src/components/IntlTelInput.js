@@ -319,7 +319,7 @@ export default React.createClass({
       if (!this.props.defaultCountry) {
         defaultCountry = (this.preferredCountries.length) ? this.preferredCountries[0].iso2 : this.countries[0].iso2;
       }
-      this.selectFlag(defaultCountry);
+      this.selectFlag(defaultCountry, true);
 
       // if empty, insert the default dial code (this function will check !nationalMode and !autoHideDialCode)
       if (!val) {
@@ -665,7 +665,7 @@ export default React.createClass({
   },
 
   // called when the user selects a list item from the dropdown
-  selectFlag (countryCode) {
+  selectFlag (countryCode, nofocus) {
     this.selectedCountryData = (countryCode) ? utils.getCountryData(countryCode, false) : {};
 
     // update selected flag and active list item
@@ -686,7 +686,7 @@ export default React.createClass({
       //this.telInput.trigger("change");
 
       // focus the input
-      React.findDOMNode(this.refs.telInput).focus();
+      if (!nofocus) React.findDOMNode(this.refs.telInput).focus();
       // fix for FF and IE11 (with nationalMode=false i.e. auto inserting dial code), who try to put the cursor at the beginning the first time
       if (this.isGoodBrowser) {
         let len = this.state.telInput.value.length;
